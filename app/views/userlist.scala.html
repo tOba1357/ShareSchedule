@@ -1,0 +1,17 @@
+@(userList: List[User])
+@main("Registration") {
+    <h2>ユーザリスト</h2>
+    <form class="form-inline" method="post" action="@routes.MainController.createUser()" id="create-user">
+        <div class="form-group">
+            <label for="input-name">名前</label>
+            <input type="text" name="name" class="form-control" id="input-name">
+        </div>
+
+        <button class="btn btn-primary" type="submit">登録</button>
+    </form>
+    <ul>
+        @for(user <- userList) {
+            <li><a href="@routes.MainController.registration(user.id)">@user.name</a></li>
+        }
+    </ul>
+}

@@ -1,0 +1,27 @@
+@import viewmodels.ScheduleListViewModel
+@(scheduleListViewModel: ScheduleListViewModel)
+@main("Home") {
+    <table class="table table-bordered">
+        <tr>
+            <th>名前</th>
+            @for(date <- scheduleListViewModel.dateList) {
+                @for(term <- scheduleListViewModel.termList) {
+                    @* TODO: add day of week *@
+                    <th>@(date.format("MM/dd")) @term.description</th>
+                }
+            }
+        </tr>
+        <tr>
+        @for(schedule <- scheduleListViewModel.scheduleList) {
+            <th>@schedule.user.name</th>
+            @for(free <- schedule.freeList) {
+                <td>
+                @if(free == null) {?} else {
+                    @if(free) {o} else {x}
+                }
+                </td>
+            }
+        }
+        </tr>
+    </table>
+}

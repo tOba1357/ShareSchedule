@@ -1,0 +1,22 @@
+@import viewmodels.ScheduleOfDayViewModel
+@import utils.DateUtils
+@(user: User, scheduleOfDayViewModelList: List[ScheduleOfDayViewModel])
+@main("Registration") {
+    <h2>@user.name</h2>
+    @for(scheduleOfDay <- scheduleOfDayViewModelList) {
+        <h3>@scheduleOfDay.date.format("MM/dd") (@DateUtils.getDateOfWeek(scheduleOfDay.date))</h3>
+        <form action="" method="post">
+            <input type="hidden" name="date" value="@scheduleOfDay.date.format("yyyy-MM-dd")">
+            @for(schedule <- scheduleOfDay.scheduleList) {
+                <h4>@schedule.term.description</h4>
+                <label class="radio-inline">
+                    <input type="radio" name="@schedule.term.id" id="schedule-@schedule.id-free" value="free">暇
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="@schedule.term.id" id="schedule-@schedule.id-busy" value="busy">忙しい
+                </label>
+            }
+        <button type="submit" class="btn btn-primary">決定</button>
+        </form>
+    }
+}
