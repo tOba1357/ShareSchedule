@@ -21,12 +21,16 @@
                     <th>@scheduleOfDay.user.name</th>
                     @for(schedule <- scheduleOfDay.scheduleList) {
                         <td>
-                            @schedule.state match {
-                                case State.UNDECIDED => {&nbsp;}
-                                case State.FREE => {o}
-                                case State.BUSY => {x}
-                                case State.WELL => {△}
-                                case _ => {&nbsp;}
+                            @if(schedule.state == null) {
+                                &nbsp;
+                            } else {
+                                <img src="@schedule.state match {
+                                    case State.UNDECIDED => {@routes.Assets.versioned("images/hatena.png")}
+                                    case State.FREE => {@routes.Assets.versioned("images/maru.png")}
+                                    case State.BUSY => {@routes.Assets.versioned("images/batu.png")}
+                                    case State.WELL => {@routes.Assets.versioned("images/sankaku.png")}
+                                    case _ => {&nbsp;}
+                                }" width="10px" height="10px">
                             }
                         </td>
                     }

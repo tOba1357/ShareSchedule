@@ -52,10 +52,51 @@ class Registration extends React.Component {
                     date={DateHelper.addDate(now, i)}
                     termList={this.state.termList}
                     stateList={this.state.stateList}
-                    key={i}/>
+                    key={i}
+                    ref={i}
+                />
             );
         }
-        return (<div>{forms}</div>);
+        let buttonStyle = {
+            marginLeft: 'auto',
+            marginRight: 'auto',
+            width: 100
+        };
+        return (
+            <div>
+                {forms}
+                <div style={buttonStyle}>
+                    <button type="button" className="btn btn-primary btn-lg text-right"
+                            onClick={this.doPost.bind(this)}>
+                        全て保存
+                    </button>
+                </div>
+            </div>
+        );
+    }
+
+    doPost() {
+        Promise.resolve($.ajax({
+            url: `/schedule/api/v1/schedule/${this.state.userId}`,
+            type: 'POST',
+            contentType: 'text/json',
+            data: JSON.stringify(this.getPostData())
+        })).then(
+            function (response) {
+                location.href = '/schedule';
+            },
+            function (error) {
+                throw error;
+            }
+        )
+    }
+
+    getPostData() {
+        var scheduleList = [];
+        for (var i = 1; i <= 7; i++) {
+            scheduleList.push(this.refs[i].getPostData());
+        }
+        return scheduleList;
     }
 }
 

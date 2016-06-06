@@ -1,15 +1,13 @@
 import React from 'react'
-import $ from 'jquery'
-import DateHelper from './utils/date-helper'
 
 export default class ScheduleInput extends React.Component {
 
-    displayState() {
+    displayStateUrl() {
         return [
-            'x',
-            'o',
-            '△',
-            '?'
+            '/schedule/assets/images/batu.png',
+            '/schedule/assets/images/maru.png',
+            '/schedule/assets/images/sankaku.png',
+            '/schedule/assets/images/hatena.png'
         ];
     }
 
@@ -22,23 +20,15 @@ export default class ScheduleInput extends React.Component {
 
     render() {
         return (
-            <div>
-                <h4>{this.props.term.description}</h4>
-
-                {
-                    this.props.scheduleId ?
-                        <input type="hidden" name="id" value={this.props.scheduleId}/> :
-                        null
-                }
-
-                <div onClick={this.onClick.bind(this)}>{this.displayState()[this.state.selected]}</div>
-            </div>
+            <td style={{borderStyle: "none"}} onClick={this.onClick.bind(this)}>
+                <img src={this.displayStateUrl()[this.state.selected]} height="50px" width="50px"/>
+            </td>
         )
     }
 
     onClick() {
         this.setState({
-            selected: (this.state.selected + 1) % this.displayState().length
+            selected: (this.state.selected + 1) % this.displayStateUrl().length
         });
     }
 

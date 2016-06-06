@@ -60,7 +60,16 @@ export default class RegistrationForm extends React.Component {
                     </div>
                     <div className="panel-body">
                         <input type="hidden" name="date" value={DateHelper.formatForInput(this.props.date)}/>
-                        {termInputs}
+                        <table className="table">
+                            <thead>
+                            <tr>
+                                {this.props.termList.map(function (term, index) {
+                                    return <th key={index} style={{borderStyle: "none"}}>{term.description}</th>
+                                })}
+                            </tr>
+                            </thead>
+                            <tbody><tr>{termInputs}</tr></tbody>
+                        </table>
                     </div>
                 </div>
             </form>
@@ -68,12 +77,11 @@ export default class RegistrationForm extends React.Component {
     }
 
     doPost() {
-        console.log(this.getPostDate());
         Promise.resolve($.ajax({
             url: `/schedule/api/v1/schedule/${this.props.userId}/${DateHelper.formatForInput(this.props.date)}`,
             type: 'POST',
             contentType: 'text/json',
-            data: JSON.stringify(this.getPostDate())
+            data: JSON.stringify(this.getPostData())
         })).then(
             function (response) {
                 location.reload();
@@ -88,7 +96,7 @@ export default class RegistrationForm extends React.Component {
         this.state.postData[term.id] = value;
     }
 
-    getPostDate() {
+    getPostData() {
         var scheduleList = [];
         for (var i = 0; i < this.props.termList.length; i++) {
             scheduleList.push(this.refs[i].getDate());
