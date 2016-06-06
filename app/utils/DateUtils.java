@@ -1,8 +1,9 @@
 package utils;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 
@@ -10,40 +11,39 @@ import java.util.List;
  * @author Tatsuya Oba
  */
 public class DateUtils {
-    public static String getDateOfWeek(final Date date) {
-        final Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        switch (calendar.get(Calendar.DAY_OF_WEEK)) {
-            case Calendar.SUNDAY: return "日";
-            case Calendar.MONDAY: return "月";
-            case Calendar.TUESDAY: return "火";
-            case Calendar.WEDNESDAY: return "水";
-            case Calendar.THURSDAY: return "木";
-            case Calendar.FRIDAY: return "金";
-            case Calendar.SATURDAY: return "土";
+    public static String getDateOfWeek(final LocalDate date) {
+        switch (date.getDayOfWeek()) {
+            case SUNDAY:
+                return "日";
+            case MONDAY:
+                return "月";
+            case TUESDAY:
+                return "火";
+            case WEDNESDAY:
+                return "水";
+            case THURSDAY:
+                return "木";
+            case FRIDAY:
+                return "金";
+            case SATURDAY:
+                return "土";
         }
         throw new IllegalStateException();
     }
 
-    public static List<Date> createDateList(
-            final Date from,
+    public static List<LocalDate> createDateList(
+            final LocalDate from,
             final int days
     ) {
-        final List<Date> dateList = new ArrayList<>();
-        final Calendar calendar = Calendar.getInstance();
-        calendar.setTime(from);
+        final List<LocalDate> dateList = new ArrayList<>();
         for (int i = 0; i < days; i++) {
-            final Date date = calendar.getTime();
-            dateList.add(date);
-            calendar.add(Calendar.DAY_OF_YEAR, 1);
+            dateList.add(from.plusDays(i));
         }
         return dateList;
     }
 
-    public static Date addDay(final Date date, final int day) {
-        final Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        calendar.add(Calendar.DAY_OF_YEAR, day);
-        return calendar.getTime();
+    public static String getSimpleString(final LocalDate date) {
+        return date.format(DateTimeFormatter.ofPattern("MM/dd")) + " "
+                + "(" + getDateOfWeek(date) + ")";
     }
 }

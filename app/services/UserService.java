@@ -9,7 +9,7 @@ import models.Schedule;
 import models.Term;
 import models.User;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -30,6 +30,9 @@ public class UserService {
     }
 
     public User getUserById(final Integer id) {
+        if (id == null) {
+            return null;
+        }
         return ebeanServer.find(User.class)
                 .setId(id)
                 .findUnique();
@@ -57,25 +60,39 @@ public class UserService {
         return StandardResponse.SUCCESS;
     }
 
-    public StandardResponse save(final Schedule schedule) {
-        ebeanServer.save(schedule);
+    public void delete(final User user) {
+        ebeanServer.delete(user);
+    }
+
+    public StandardResponse saveOrUpdate(final Schedule schedule) {
+        if (schedule.id == null) {
+            ebeanServer.save(schedule);
+        } else {
+            ebeanServer.update(schedule);
+        }
         return StandardResponse.SUCCESS;
     }
 
     public List<Schedule> getScheduleList(
             final User user,
-            final Date from,
-            final Date end
+            final LocalDate date
     ) {
-        //TODO: add order by
+        return getScheduleList(user.id, date);
+    }
+
+    public List<Schedule> getScheduleList(
+            final Integer userId,
+            final LocalDate date
+    ) {
         return ebeanServer.find(Schedule.class)
                 .where()
-                .disjunction()
-                .add(Expr.eq("user.id", user.id))
-                .add(Expr.ge("date", from))
-                .add(Expr.le("date", end))
+                .and(
+                        Expr.eq("user_id", userId),
+                        Expr.eq("date", date)
+                )
                 .findList();
     }
+
 
     public List<Term> getAllTerm() {
         return ebeanServer.find(Term.class)
@@ -83,4 +100,11 @@ public class UserService {
                 .findList();
     }
 
+    public void deleteAllTerm() {
+        getAllTerm().forEach(ebeanServer::delete);
+    }
+
+    public void saveTerm(final Term term) {
+        ebeanServer.save(term);
+    }
 }

@@ -1,5 +1,7 @@
 package models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -20,6 +22,7 @@ public class Term {
 
     public String description;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "term", cascade = CascadeType.ALL)
     public List<Schedule> scheduleList;
 
@@ -29,6 +32,6 @@ public class Term {
         if (!(obj instanceof  Term)) {
             return false;
         }
-        return this.description.equals(((Term) obj).description);
+        return this.id.equals(((Term) obj).id);
     }
 }

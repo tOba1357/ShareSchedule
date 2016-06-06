@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import java.time.LocalDate;
 import java.util.Date;
 
 /**
@@ -21,9 +22,9 @@ public class Remarks extends Model {
 
     public String description;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "id")
     public User user;
 
-    public Date date;
+    public LocalDate date;
 }

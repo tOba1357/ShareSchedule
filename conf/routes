@@ -2,11 +2,26 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-GET         /                        controllers.MainController.home
-GET         /userlist                controllers.MainController.userList
-POST        /user                    controllers.MainController.createUser
-GET         /registration/*id        controllers.MainController.registration(id: Integer)
+GET           /schedule                                  controllers.MainController.home
+GET           /schedule/                                 controllers.MainController.home
+
+GET           /schedule/user                             controllers.UsersController.showUserList
+POST          /schedule/user                             controllers.UsersController.createUser
+DELETE        /schedule/user/*id                         controllers.UsersController.deleteUser(id: Integer)
+
+GET           /schedule/registration/*id                 controllers.RegistrationController.showRegistrationForm(id: Integer)
+POST          /schedule/registration/*id                 controllers.RegistrationController.registration(id: Integer)
+
+GET           /schedule/setting                          controllers.SettingController.settingForm
+POST          /schedule/setting                          controllers.SettingController.setTerm
+
+# api
+GET           /schedule/api/v1/term                      controllers.ApiController.getTerms
+GET           /schedule/api/v1/state                     controllers.ApiController.getStates
+GET           /schedule/api/v1/schedule/*id/*date        controllers.ApiController.getSchedules(id: Integer, date: String)
+POST          /schedule/api/v1/schedule/*id/*date        controllers.ApiController.setSchedulesOfDay(id: Integer, date: String)
+POST          /schedule/api/v1/schedule/*id              controllers.ApiController.setSchedules(id: Integer)
+
 
 # Map static resources from the /public folder to the /assets URL path
-GET         /assets/*file            controllers.Assets.versioned(path="/public", file: Asset)
-GET         /webjars/*file           controllers.WebJarAssets.at(file)
+GET           /schedule/assets/*file                     controllers.Assets.versioned(path="/public", file: Asset)

@@ -4,14 +4,11 @@
 <html lang="ja">
     <head>
         <title>@currentPage</title>
-            <!-- Latest compiled and minified CSS -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=10.0, user-scalable=yes">
+        <link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/bootstrap.min.css")">
         <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/main.css")">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.0.2/react.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.0.2/react-dom.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+        <script src="@routes.Assets.versioned("javascripts/jquery.js")"></script>
+        <script src="@routes.Assets.versioned("javascripts/bootstrap.min.js")"></script>
     </head>
     <body>
         <div class="container">
@@ -29,8 +26,8 @@
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav">
                             <li @if(currentPage == "Home"){class="active"}><a href="@routes.MainController.home()">Home</a></li>
-                            <li @if(currentPage == "Registration"){class="active"}><a href="@routes.MainController.userList()">Registration</a></li>
-                            <li @if(currentPage == "Setting"){class="active"}><a href="@routes.MainController.home()">Setting</a></li>
+                            <li @if(currentPage == "Registration"){class="active"}><a href="@routes.UsersController.showUserList()">Registration</a></li>
+                            <li @if(currentPage == "Setting"){class="active"}><a href="@routes.SettingController.settingForm()">Setting</a></li>
                         </ul>
                     </div>
                 </div>

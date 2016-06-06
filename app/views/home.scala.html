@@ -1,27 +1,38 @@
 @import viewmodels.ScheduleListViewModel
-@(scheduleListViewModel: ScheduleListViewModel)
+@import utils.DateUtils
+@(scheduleListViewModelList: List[ScheduleListViewModel])
 @main("Home") {
-    <table class="table table-bordered">
-        <tr>
-            <th>名前</th>
-            @for(date <- scheduleListViewModel.dateList) {
+    @for(scheduleListViewModel <- scheduleListViewModelList) {
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    @DateUtils.getSimpleString(scheduleListViewModel.date)
+                </h3>
+            </div>
+        <table class="table table-bordered">
+            <tr>
+                <th>名前</th>
                 @for(term <- scheduleListViewModel.termList) {
-                    @* TODO: add day of week *@
-                    <th>@(date.format("MM/dd")) @term.description</th>
+                    <th>@term.description</th>
                 }
+            </tr>
+            @for(scheduleOfDay <- scheduleListViewModel.scheduleOfDayList) {
+                <tr>
+                    <th>@scheduleOfDay.user.name</th>
+                    @for(schedule <- scheduleOfDay.scheduleList) {
+                        <td>
+                            @schedule.state match {
+                                case State.UNDECIDED => {&nbsp;}
+                                case State.FREE => {o}
+                                case State.BUSY => {x}
+                                case State.WELL => {△}
+                                case _ => {&nbsp;}
+                            }
+                        </td>
+                    }
+                </tr>
             }
-        </tr>
-        <tr>
-        @for(schedule <- scheduleListViewModel.scheduleList) {
-            <th>@schedule.user.name</th>
-            @for(free <- schedule.freeList) {
-                <td>
-                @if(free == null) {?} else {
-                    @if(free) {o} else {x}
-                }
-                </td>
-            }
-        }
-        </tr>
-    </table>
+        </table>
+        </div>
+    }
 }

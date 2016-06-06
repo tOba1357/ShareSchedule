@@ -1,0 +1,9 @@
+@()
+
+@main("Setting", scripts) {
+    <div id="content"></div>
+}
+
+@scripts = {
+    <script src="@routes.Assets.versioned("javascripts/target/setting.js")"></script>
+}
